@@ -1,7 +1,21 @@
 <% require css(videos/css/video.css) %>
 
 <div id="SideBar">
-	
+	<% if relatedVideos %>
+		<h3>Related Videos</h3>
+		<ul class="relatedVideos">
+			<% control relatedVideos %>
+				<li>
+					<a href="$Link">
+						<% control Video %>
+							$VideoThumbnail.CroppedImage(50,50)
+						<% end_control %>
+					</a>
+					<a href="$Link">$MenuTitle</a>
+				</li>
+			<% end_control %>
+		</ul>
+	<% end_if %>
 </div>
 
 <div id="Content">
@@ -11,7 +25,7 @@
 
 	<div class="VideoContainer">
 		<% control Video %>
-		$Player(600,338)
+		$Player(600,337)
 		<% end_control %>
 	</div>
 	
