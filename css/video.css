@@ -35,8 +35,6 @@
 .VideoContainer {
 	background: #000;
 	width: 600px;
-	height: 337px;
-	overflow: hidden;
 	margin: 20px 0;
 }
 

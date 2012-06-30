@@ -2,78 +2,53 @@
 
 class Video extends Page { 
    
-	static $has_one = array ( 
-		'Video' => 'FLV' ,
-	); 
+   static $has_one = array ( 
+      'MP4Video' => 'File' ,
+      'OggVideo' =>  'File',
+      'WebMVideo' => 'File',
+      'Poster' => 'Image'
+      //'VideoGroup' => 'VideoGroup'
+   ); 
    
-	public static $many_many = array(
-		'Groups' => 'VideoGroup'
-	);
-	
-	public static $singular_name = 'Video';
-
-	public static $plural_name = 'Videos';
-
-	static $default_parent = 'VideoGroup';
-		
-	static $can_be_root = false;
-
-	static $default_sort = '"Title" ASC';
+   public function getCMSFields() {
    
-
-	public function getCMSFields() {
-   
-	   	$fields = parent::getCMSFields();
-	   	
-	   	$fields->addFieldToTab('Root.Content.Video', new FileUploadField('Video'));
-	   	
-	   	$fields->addFieldsToTab(
-			'Root.Content.Groups',
-			array(
-				new HeaderField('ProductGroupsHeader', _t('Product.ALSOAPPEARS')),
-				$this->getVideoGroupsTable()
-			)
-		);
-	   	
-	   	return $fields;
-
-	}
-   
-   protected function getVideoGroupsTable() {
-		$tableField = new ManyManyComplexTableField(
-			$this,
-			'Groups',
-			'VideoGroup',
-			array(
-				'Title' => 'Video Group Page Title'
-			)
-		);
-
-		$tableField->setPageSize(30);
-		$tableField->setPermissions(array());
-
-		//TODO: use a tree structure for selecting groups
-		//$field = new TreeMultiselectField('ProductGroups','Product Groups','ProductGroup');
-
-		return $tableField;
-	}
+   	$fields = parent::getCMSFields();
+   	
+   	// mp4 upload
+   	$MP4Field = new UploadField('MP4Video', 'MP4 Video');
+   	$MP4Field->getValidator()->setAllowedExtensions(array('mp4', 'm4v'));
+   	$MP4Field->setFolderName('Uploads/video');
+   	
+   	// ogg upload
+   	$OggField = new UploadField('OggVideo', 'Ogg Video');
+   	$OggField->getValidator()->setAllowedExtensions(array('ogv', 'ogg'));
+   	$OggField->setFolderName('Uploads/video');
+   	
+   	// mp4 upload
+   	$WebMField = new UploadField('WebMVideo', 'WebM Video');
+   	$WebMField->getValidator()->setAllowedExtensions(array('webm'));
+   	$WebMField->setFolderName('Uploads/video');
+   	
+   	// poster
+   	$PosterField = new UploadField('Poster', 'Poster Image');
+   	$PosterField->allowedExtensions = array('jpg', 'gif', 'png');
+   	$PosterField->setFolderName('Uploads/videoposters');
+   	
+   	$fields->addFieldsToTab('Root.Video', array(
+   		$MP4Field,
+   		$OggField,
+   		$WebMField,
+   		$PosterField
+   	));
+   	
+   	return $fields;
+   }
     
 }
 
 class Video_Controller extends Page_Controller {
 
-	/**
-	return related Videos for sidebar
-	@return DataObjectSet Videos
-	*/
-	public function relatedVideos() {
-		
-		$Group = DataObject::get_by_id('VideoGroup', $this->ParentID);		
-		$Videos = $Group->ShowVideos();
-		//debug::show($Videos);
-		
-		return $Videos;
-	}	
+	
 
 }
  
