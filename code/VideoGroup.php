@@ -13,6 +13,7 @@ class VideoGroup extends Page {
 	
 	protected static $include_child_groups = true;
 	
+	static $description = 'Videos Landing Page';
 	
 	function ShowVideos() {
 		

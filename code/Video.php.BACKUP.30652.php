@@ -10,8 +10,11 @@ class Video extends Page {
       //'VideoGroup' => 'VideoGroup'
    ); 
    
+<<<<<<< HEAD
    static $description = 'Single Video Detail Page';
    
+=======
+>>>>>>> 6aa4933ce2368a5e1d98bd2835cd1f39af28e2aa
    public function getCMSFields() {
    
    	$fields = parent::getCMSFields();
