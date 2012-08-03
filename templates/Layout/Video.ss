@@ -1,4 +1,3 @@
-
 $Breadcrumbs
 
 <h2 class="page-title">$MenuTitle</h2>
@@ -11,7 +10,7 @@ $Breadcrumbs
 	    	<% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
 		    <% if MP4Video %>
 			<div class="VideoContainer">
-				<video controls="controls" poster="$Poster.AbsoluteURL" width="640" height="360">
+				<video controls="controls" poster="$Poster.AbsoluteURL">
 					<source src="$MP4Video.AbsoluteURL" type="video/mp4" />
 					<source src="$WebMVideo.AbsoluteURL" type="video/webm" />
 					<source src="$OggVideo.AbsoluteURL" type="video/ogg" />
