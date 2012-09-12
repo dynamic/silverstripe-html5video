@@ -10,7 +10,7 @@ $Breadcrumbs
 	    	<% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
 		    <% if MP4Video %>
 			<div class="VideoContainer">
-				<video controls="controls" poster="$Poster.AbsoluteURL">
+				<video controls="controls" <% if Poster %>poster="$Poster.SetWidth(640).AbsoluteURL"<% end_if %>>
 					<source src="$MP4Video.AbsoluteURL" type="video/mp4" />
 					<source src="$WebMVideo.AbsoluteURL" type="video/webm" />
 					<source src="$OggVideo.AbsoluteURL" type="video/ogg" />
@@ -18,8 +18,10 @@ $Breadcrumbs
 						<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />
 						<param name="allowFullScreen" value="true" />
 						<param name="wmode" value="transparent" />
-						<param name="flashVars" value="config={'playlist':['$Poster.AbsoluteURL',{'url':'$MP4Video.AbsoluteURL','autoPlay':false}]}" />
-						<img alt="Dynamic Reel" src="$Poster.AbsoluteURL" width="640" height="360" title="No video playback capabilities, please download the video below" />
+						<param name="flashVars" value="config={'playlist':['$Poster.SetWidth(640).AbsoluteURL',{'url':'$MP4Video.AbsoluteURL','autoPlay':false}]}" />
+						<% if Poster %>
+							<img alt="Dynamic Reel" src="$Poster.SetWidth(640).AbsoluteURL" width="640" height="360" title="No video playback capabilities, please download the video below" />
+						<% end_if %>
 					</object>
 				</video>
 				<!--<p>

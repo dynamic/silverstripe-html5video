@@ -54,7 +54,7 @@ class Video extends Page {
    
    public function getRelatedVideos() {
 		
-		if ($this->Parent()) {
+		if ($this->Parent() && $this->Parent()->ClassName == 'VideoGroup') {
 		
 			$Videos = $this->Parent()->getVideoList();
 			foreach ($Videos as $Video) {
