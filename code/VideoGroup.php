@@ -6,6 +6,7 @@ class VideoGroup extends Page {
 	);
 	
 	static $allowed_children = array(
+		'VideoGroup',
 		'Video'
 	);
 	
@@ -15,10 +16,74 @@ class VideoGroup extends Page {
 	
 	static $description = 'Videos Landing Page';
 	
+	
+	/**
+	 * loadDescendantVideoGroupIDListInto function.
+	 * 
+	 * @access public
+	 * @param mixed &$idList
+	 * @return void
+	 */
+	public function loadDescendantVideoGroupIDListInto(&$idList) {
+		if ($children = $this->AllChildren()) {
+			foreach($children as $child) {
+				if(in_array($child->ID, $idList)) continue;
+				
+				if($child instanceof VideoGroup) {
+					$idList[] = $child->ID; 
+					$child->loadDescendantVideoGroupIDListInto($idList);
+				}                             
+			}
+		}
+	}
+	
+	
+	/**
+	 * VideoGroupIDs function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function VideoGroupIDs() {
+		$holderIDs = array();
+		$this->loadDescendantVideoGroupIDListInto($holderIDs);
+		return $holderIDs;
+	}
+	
+	/**
+	 * Videos function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getVideoList() {
+	
+		$filter = '"ParentID" = ' . $this->ID;
+		$limit = 3;
+		
+		// Build a list of all IDs for VideoGroups that are children
+		$holderIDs = $this->VideoGroupIDs();
+		
+		if($holderIDs) {
+			if($filter) $filter .= ' OR ';
+			$filter .= '"ParentID" IN (' . implode(',', $holderIDs) . ")";
+		}
+		
+		$order = '"SiteTree"."Title" ASC';
+
+		$entries = Video::get()->where($filter)->sort($order);
+
+    	$list = new PaginatedList($entries, Controller::curr()->request);
+    	$list->setPageLength($limit);
+    	return $list;
+		
+	}
+	
+	
+	// old display function
 	function ShowVideos() {
 		
 		$filter = '';
-		
 		
 		$limit = (isset($_GET['start']) && (int)$_GET['start'] > 0) ? (int)$_GET['start'].",".self::$page_length : "0,".self::$page_length;
 		$sort = (isset($_GET['sortby'])) ? Convert::raw2sql($_GET['sortby']) : "\"Title\"";
@@ -87,12 +152,13 @@ class VideoGroup extends Page {
 class VideoGroup_Controller extends Page_Controller {
 
 	public function GroupVideos() {
-		return $this->ShowVideos();
+
+		//return $this->ShowVideos();
 	}
 	
 	public function SubGroups() {
 		return $this->ChildGroups();
 	}
-
+	
+	
 }
-?>

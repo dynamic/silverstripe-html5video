@@ -35,23 +35,22 @@ $Breadcrumbs
 	</li>
     <li class="aside-content">
         <h2 class="section-title">$MenuTitle</h2>
-
         
-        <% if relatedVideos %>
-		<h3>Related Videos</h3>
-		<ul class="relatedVideos">
-			<% control relatedVideos %>
-				<li>
-					<a href="$Link">
-						<% control Video %>
-							$VideoThumbnail.CroppedImage(50,50)
-						<% end_control %>
-					</a>
-					<a href="$Link">$MenuTitle</a>
-				</li>
-			<% end_control %>
-		</ul>
-	<% end_if %>
+        <% if RelatedVideos %>
+	        <div class="aside-content-box list">
+			    <h3>Related Videos</h3>
+			    <ul class="relatedVideos">
+				<% control RelatedVideos %>
+					<li>
+						<a href="$Link">
+								$Poster.CroppedImage(50,50)
+						</a>
+						<a href="$Link">$MenuTitle</a>
+					</li>
+				<% end_control %>
+				</ul>
+			</div>
+		<% end_if %>
                 
     </li>
 </ul>
