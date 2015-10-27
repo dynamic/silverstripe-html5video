@@ -24,21 +24,33 @@ class Video extends Page
         $fields = parent::getCMSFields();
 
         // mp4 upload
-        $MP4Field = new UploadField('MP4Video', 'MP4 Video');
+        if (class_exists('ChunkedUploadField')) {
+            $MP4Field = new ChunkedUploadField('MP4Video', 'MP4 Video');
+        } else {
+            $MP4Field = new UploadField('MP4Video', 'MP4 Video');
+        }
         $MP4Field->getValidator()->setAllowedExtensions(array('mp4', 'm4v'));
         $MP4Field->setFolderName('Uploads/Video');
         $MP4Field->setConfig('allowedMaxFileNumber', 1);
         $MP4Field->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
         // ogg upload
-        $OggField = new UploadField('OggVideo', 'Ogg Video');
+        if (class_exists('ChunkedUploadField')) {
+            $OggField = new ChunkedUploadField('OggVideo', 'Ogg Video');
+        } else {
+            $OggField = new UploadField('OggVideo', 'Ogg Video');
+        }
         $OggField->getValidator()->setAllowedExtensions(array('ogv', 'ogg'));
         $OggField->setFolderName('Uploads/Video');
         $OggField->setConfig('allowedMaxFileNumber', 1);
         $OggField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
         // webm upload
-        $WebMField = new UploadField('WebMVideo', 'WebM Video');
+        if (class_exists('ChunkedUploadField')) {
+            $WebMField = new ChunkedUploadField('WebMVideo', 'WebM Video');
+        } else {
+            $WebMField = new UploadField('WebMVideo', 'WebM Video');
+        }
         $WebMField->getValidator()->setAllowedExtensions(array('webm'));
         $WebMField->setFolderName('Uploads/Video');
         $WebMField->setConfig('allowedMaxFileNumber', 1);
