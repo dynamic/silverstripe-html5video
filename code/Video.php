@@ -98,6 +98,8 @@ class Video extends Page
             $WebMField,
         ));
 
+        $this->extend('updateCMSFields', $fields);
+
         return $fields;
     }
 
