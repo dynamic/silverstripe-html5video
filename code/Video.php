@@ -1,24 +1,51 @@
 <?php
 
+/**
+ * Class Video
+ * @package html5video
+ */
 class Video extends Page
 {
+    /**
+     * @var array
+     */
     private static $db = array(
         'Time' => 'Varchar(100)'
     );
 
-    public static $has_one = array(
-        'MP4Video' => 'File' ,
+    /**
+     * @var array
+     */
+    private static $has_one = array(
+        'MP4Video' => 'File',
         'OggVideo' => 'File',
         'WebMVideo' => 'File',
         'Image' => 'Image',
     );
 
+    /**
+     * @var string
+     */
     private static $singular_name = 'HTML5 Video';
+
+    /**
+     * @var string
+     */
     private static $plural_name = 'HTML5 Vidoes';
+
+    /**
+     * @var string
+     */
     private static $description = 'Single Video Detail Page';
 
+    /**
+     * @var string
+     */
     private static $default_sort = 'Title ASC';
 
+    /**
+     * @return FieldList
+     */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -74,6 +101,9 @@ class Video extends Page
         return $fields;
     }
 
+    /**
+     * @return DataList|bool
+     */
     public function getRelatedVideos()
     {
         if ($this->Parent() && $this->Parent()->ClassName == 'VideoGroup') {
