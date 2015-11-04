@@ -7,10 +7,10 @@ $Breadcrumbs
     <li class="column-row main-content">
 	    <article>
 	    	<h2 class="detail-head">$Title</h2>
-	    	<% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
-		    <% if MP4Video %>
+	    	<% if $SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
+		    <% if $MP4Video %>
     			<div class="VideoContainer">
-    				<video controls="controls" <% if Poster %>poster="$Poster.SetWidth(640).AbsoluteURL"<% end_if %>>
+    				<video controls="controls" <% if $Poster %>poster="$Poster.SetWidth(640).AbsoluteURL"<% end_if %>>
     					<source src="$MP4Video.AbsoluteURL" type="video/mp4" />
     					<source src="$WebMVideo.AbsoluteURL" type="video/webm" />
     					<source src="$OggVideo.AbsoluteURL" type="video/ogg" />
@@ -38,11 +38,11 @@ $Breadcrumbs
     <li class="aside-content">
         <h2 class="section-title">$MenuTitle</h2>
 
-        <% if RelatedVideos %>
+        <% if $RelatedVideos %>
 	        <div class="aside-content-box list">
 			    <h3>Related Videos</h3>
 			    <ul class="relatedVideos">
-				<% loop RelatedVideos %>
+				<% loop $RelatedVideos %>
 					<li>
 						<a href="$Link">
 								$Poster.CroppedImage(50,50)
