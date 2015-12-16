@@ -6,14 +6,14 @@
 	<h2 class="page-title">$MenuTitle</h2>
 	
 	 <article>
-    	<h2 class="detail-head">$Title</h3>
-        <% if SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
+    	<h3 class="detail-head">$Title</h3>
+        <% if $SubHeadline %><h3 class="detail-subhead">$SubHeadline</h3><% end_if %>
         <div class="typography">
 	        $Content
         </div>
         
         <ul class="VideoGallery">
-		<% control VideoList %>
+		<% loop $VideoList %>
 			<li>
 				<a href="$Link">
 					$Poster.CroppedImage(180, 150)
@@ -22,7 +22,7 @@
 				<h4><a href="$Link">$Title</a></h4>
 			
 			</li>
-		<% end_control %>
+		<% end_loop %>
 			<div class="clear"></div>
 		</ul>
         
@@ -33,12 +33,12 @@
 
 	<h2 class="section-title">$MenuTitle</h2>
         
-    <% if SubGroups %>
+    <% if $SubGroups %>
 	<h3>Related Groups</h3>
 	<ul>
-		<% control SubGroups %>
+		<% loop $SubGroups %>
 		<li><a href="$Link">$MenuTitle</a></li>
-		<% end_control %>
+		<% end_loop %>
 	</ul>
 	<% end_if %>
 
