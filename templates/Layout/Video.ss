@@ -19,7 +19,7 @@ $Breadcrumbs
     						<param name="allowFullScreen" value="true" />
     						<param name="wmode" value="transparent" />
     						<param name="flashVars" value="config={'playlist':['$Poster.SetWidth(640).AbsoluteURL',{'url':'$MP4Video.AbsoluteURL','autoPlay':false}]}" />
-    						<% if Poster %>
+    						<% if $Poster %>
     							<img alt="Dynamic Reel" src="$Poster.SetWidth(640).AbsoluteURL" width="640" height="360" title="No video playback capabilities, please download the video below" />
     						<% end_if %>
     					</object>
