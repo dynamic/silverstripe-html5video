@@ -1,8 +1,7 @@
 <?php
 
 /**
- * Class Video
- * @package html5video
+ * Class Video.
  */
 class Video extends Page
 {
@@ -10,7 +9,7 @@ class Video extends Page
      * @var array
      */
     private static $db = array(
-        'Time' => 'Varchar(100)'
+        'Time' => 'Varchar(100)',
     );
 
     /**
@@ -39,68 +38,99 @@ class Video extends Page
     private static $description = 'Single Video Detail Page';
 
     /**
-     * @var string
-     */
-    private static $default_sort = 'Title ASC';
-
-    /**
      * @return FieldList
      */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
+        $fields->dataFieldByName('Title')->setTitle('Video Title');
+        $fields->dataFieldByName('Content')->setTitle('Video Description');
+
+        $fields->insertBefore(
+            TextField::create('Time', 'Video Duration')
+                ->setDescription('ex. mm:ss'),
+            'Content'
+        );
+
+        // poster
+        $PosterField = UploadField::create('Image', 'Poster Image')
+            ->setFolderName('Uploads/Video/Images')
+            ->setConfig('allowedMaxFileNumber', 1)
+            ->setDescription('Placeholder image until video is played.')
+        ;
+        $PosterField->allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
+        $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
+
+        $fields->insertBefore(
+            $PosterField,
+            'Content'
+        );
+
         // mp4 upload
         if (class_exists('ChunkedUploadField')) {
-            $MP4Field = new ChunkedUploadField('MP4Video', 'MP4 Video');
+            $MP4Field = ChunkedUploadField::create('MP4Video');
         } else {
-            $MP4Field = new UploadField('MP4Video', 'MP4 Video');
+            $MP4Field = new UploadField('MP4Video');
         }
+        $MP4Field
+            ->setTitle('MP4 Video')
+            ->setFolderName('Uploads/Video/MP4Video')
+            ->setConfig('allowedMaxFileNumber', 1)
+            ->setDescription('Required. Format compatible with most browsers.')
+        ;
         $MP4Field->getValidator()->setAllowedExtensions(array('mp4', 'm4v'));
-        $MP4Field->setFolderName('Uploads/Video');
-        $MP4Field->setConfig('allowedMaxFileNumber', 1);
         $MP4Field->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
         // ogg upload
         if (class_exists('ChunkedUploadField')) {
-            $OggField = new ChunkedUploadField('OggVideo', 'Ogg Video');
+            $OggField = ChunkedUploadField::create('OggVideo');
         } else {
-            $OggField = new UploadField('OggVideo', 'Ogg Video');
+            $OggField = UploadField::create('OggVideo');
         }
+        $OggField
+            ->setTitle('Ogg Video')
+            ->setFolderName('Uploads/Video/OggVideo')
+            ->setConfig('allowedMaxFileNumber', 1)
+            ->setDescription('Optional. Format compatible with FireFox.')
+        ;
         $OggField->getValidator()->setAllowedExtensions(array('ogv', 'ogg'));
-        $OggField->setFolderName('Uploads/Video');
-        $OggField->setConfig('allowedMaxFileNumber', 1);
         $OggField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
         // webm upload
         if (class_exists('ChunkedUploadField')) {
-            $WebMField = new ChunkedUploadField('WebMVideo', 'WebM Video');
+            $WebMField = ChunkedUploadField::create('WebMVideo');
         } else {
-            $WebMField = new UploadField('WebMVideo', 'WebM Video');
+            $WebMField = UploadField::create('WebMVideo');
         }
+        $WebMField
+            ->setTitle('WebM Video')
+            ->setFolderName('Uploads/Video/WebMVideo')
+            ->setConfig('allowedMaxFileNumber', 1)
+            ->setDescription('Optional. Format compatible with Chrome.')
+        ;
         $WebMField->getValidator()->setAllowedExtensions(array('webm'));
-        $WebMField->setFolderName('Uploads/Video');
-        $WebMField->setConfig('allowedMaxFileNumber', 1);
         $WebMField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
-        // poster
-        $PosterField = new UploadField('Image', 'Poster Image');
-        $PosterField->allowedExtensions = array('jpg', 'gif', 'png');
-        $PosterField->setFolderName('Uploads/VideoImages');
-        $PosterField->setConfig('allowedMaxFileNumber', 1);
-        $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
-
         $fields->addFieldsToTab('Root.Video', array(
-            $PosterField,
-            TextField::create('Time', 'Video Duration'),
             $MP4Field,
-            $OggField,
             $WebMField,
+            $OggField,
         ));
 
         $this->extend('updateCMSFields', $fields);
 
         return $fields;
+    }
+
+    /**
+     * This function allows the validation of record data
+     * on Save.
+     *
+     * @return ValidationResult
+     */
+    public function getCMSValidator() {
+ 		return new RequiredFields(array('MP4Video'));
     }
 
     /**
