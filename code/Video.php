@@ -38,6 +38,14 @@ class Video extends Page
     private static $description = 'Single Video Detail Page';
 
     /**
+     * Sets the ShowInMenus field to false.
+     */
+    public function populateDefaults() {
+        $this->ShowInMenus = 0;
+        parent::populateDefaults();
+    }
+
+    /**
      * @return FieldList
      */
     public function getCMSFields()
