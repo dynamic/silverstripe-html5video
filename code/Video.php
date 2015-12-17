@@ -38,11 +38,6 @@ class Video extends Page
     private static $description = 'Single Video Detail Page';
 
     /**
-     * @var string
-     */
-    private static $default_sort = 'Title ASC';
-
-    /**
      * Sets the ShowInMenus field to false.
      */
     public function populateDefaults() {
