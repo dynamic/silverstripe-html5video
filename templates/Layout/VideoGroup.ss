@@ -1,6 +1,8 @@
-<% require css(videos/css/video.css) %>
+<% require css(html5video/css/video.css) %>
+<% require javascript('framework/thirdparty/jquery/jquery.js') %>
+<% require javascript(html5video/javascript/html5video.js) %>
 
-<div class="twelve columns alpha">
+<div class="twelve columns alpha main">
 
 	$Breadcrumbs
 	<h2 class="page-title">$MenuTitle</h2>
@@ -11,20 +13,9 @@
         <div class="typography">
 	        $Content
         </div>
-        
-        <ul class="VideoGallery">
-		<% loop $VideoList %>
-			<li>
-				<a href="$Link">
-					$Poster.CroppedImage(180, 150)
-				</a>		
-				
-				<h4><a href="$Link">$Title</a></h4>
-			
-			</li>
-		<% end_loop %>
-			<div class="clear"></div>
-		</ul>
+		 <div class="video-holder">
+        	<% include VideoList %>
+         </div>
         
 	</article>
 

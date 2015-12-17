@@ -25,7 +25,12 @@ class VideoGroup extends Page
     /**
      * @var int
      */
-    protected static $page_length = 12;
+    private static $page_length = 12;
+
+    /**
+     * @var string
+     */
+    private static $pagination_get_var = 's';
 
     /**
      * @var bool
@@ -37,138 +42,53 @@ class VideoGroup extends Page
      */
     private static $description = 'Videos Landing Page';
 
-
     /**
-     * loadDescendantVideoGroupIDListInto function.
+     * Method that returns child VideoGroup pages.
+     * By default it only shows those with ShowInMenus
+     * set to true, but can be overridden to show all
+     * VideoGroup children regardless of ShowInMenus.
      *
-     * @access public
-     * @param mixed &$idList
-     * @return void
-     */
-    public function loadDescendantVideoGroupIDListInto(&$idList)
-    {
-        if ($children = $this->AllChildren()) {
-            foreach ($children as $child) {
-                if (in_array($child->ID, $idList)) {
-                    continue;
-                }
-
-                if ($child instanceof VideoGroup) {
-                    $idList[] = $child->ID;
-                    $child->loadDescendantVideoGroupIDListInto($idList);
-                }
-            }
-        }
-    }
-
-
-    /**
-     * VideoGroupIDs function.
+     * @param bool $all
      *
-     * @access public
-     * @return void
+     * @return ArrayList
      */
-    public function VideoGroupIDs()
+    public function getChildGroups($all = false)
     {
-        $holderIDs = array();
-        $this->loadDescendantVideoGroupIDListInto($holderIDs);
-        return $holderIDs;
+        return ($all === false)
+            ? $this->Children()->filter('ClassName', 'VideoGroup')
+            : $this->AllChildren()->filter('ClassName', 'VideoGroup');
     }
 
     /**
-     * Videos function.
+     * Method that returns an array of ID's
+     * of the VideoGroup pages beneath the current one
      *
      * @access public
-     * @return PaginatedList
+     * @param bool $all
+     *
+     * @return array
      */
-    public function getVideoList()
+    public function getVideoGroupIDs($all = false)
     {
-
-        $filter = '"ParentID" = ' . $this->ID;
-        $limit = 3;
-
-        // Build a list of all IDs for VideoGroups that are children
-        $holderIDs = $this->VideoGroupIDs();
-
-        if ($holderIDs) {
-            if ($filter) {
-                $filter .= ' OR ';
-            }
-            $filter .= '"ParentID" IN (' . implode(',', $holderIDs) . ")";
-        }
-
-        $order = '"SiteTree"."Title" ASC';
-
-        $entries = Video::get()->where($filter)->sort($order);
-
-        $list = new PaginatedList($entries, Controller::curr()->request);
-        $list->setPageLength($limit);
-        return $list;
-
+        return $this->getChildGroups($all)->column('ID');
     }
 
-
     /**
-     * old display function
+     * Method that returns a DataList of all
+     * Video pages in the current VideoGroup
+     * and all child VideoGroup pages
+     *
+     * @access public
+     * @param bool $all
      *
      * @return DataList
      */
-    public function ShowVideos()
+    public function getVideoList($all = false)
     {
+        $groupIDS = $this->getVideoGroupIDS($all);
+        $groupIDS[] = $this->ID;
+        return Video::get()->filter('ParentID', $groupIDS);
 
-        $filter = '';
-
-        $limit = (isset($_GET['start']) && (int)$_GET['start'] > 0) ? (int)$_GET['start'] . "," . self::$page_length : "0," . self::$page_length;
-        $sort = (isset($_GET['sortby'])) ? Convert::raw2sql($_GET['sortby']) : "\"Title\"";
-
-        $groupids = array($this->ID);
-
-        if (self::$include_child_groups && $childgroups = $this->ChildGroups(true)) {
-            $groupids = array_merge($groupids, $childgroups->map('ID', 'ID'));
-        }
-
-        $groupidsimpl = implode(',', $groupids);
-
-        $join = $this->getManyManyJoin('Videos', 'Video');
-        $multicatfilter = $this->getManyManyFilter('Videos', 'Video');
-
-        //TODO: get products that appear in child groups (make this optional)
-
-        $products = DataObject::get('Video', "(\"ParentID\" IN ($groupidsimpl) OR $multicatfilter) $filter", $sort,
-            $join, $limit);
-
-        $allproducts = DataObject::get('Video', "\"ParentID\" IN ($groupidsimpl) $filter", "", $join);
-
-        if ($allproducts) {
-            $products->TotalCount = $allproducts->Count();
-        } //add total count to returned data for 'showing x to y of z products'
-        if ($products && $products instanceof DataObjectSet) {
-            $products->removeDuplicates();
-        }
-
-
-        return $products;
-
-    }
-
-    /**
-     * @param bool|false $recursive
-     * @return DataList|mixed|null
-     */
-    public function ChildGroups($recursive = false)
-    {
-        if ($recursive) {
-            if ($children = DataObject::get('VideoGroup', "\"ParentID\" = '$this->ID'")) {
-                $output = unserialize(serialize($children));
-                foreach ($children as $group) {
-                    $output->merge($group->ChildGroups($recursive));
-                }
-                return $output;
-            }
-            return null;
-        } else {
-            return DataObject::get('VideoGroup', "\"ParentID\" = '$this->ID'");
-        }
     }
 
     /**
@@ -177,17 +97,10 @@ class VideoGroup extends Page
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        /*$fields->addFieldToTab("Root.Content.Videos", new FileDataObjectManager(
-           $this,
-           'Videos',
-           'Video',
-           'Video',
-           array('Title' => 'Title', 'Description' => 'Description'),
-           new FieldSet(
-              new TextField('Title'),
-              new TextareaField('Description')
-           )
-        )); */
+
+
+        $this->extend('updateCMSFields', $fields);
+
         return $fields;
     }
 
@@ -198,20 +111,57 @@ class VideoGroup_Controller extends Page_Controller
 {
 
     /**
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'index',
+    );
+
+    /**
      *
      */
-    public function GroupVideos()
+    public function init()
     {
+        parent::init();
 
-        //return $this->ShowVideos();
     }
 
     /**
-     * @return mixed
+     * @param SS_HTTPRequest $request
+     * @return array|HTMLText
      */
-    public function SubGroups()
+    public function index(SS_HTTPRequest $request)
     {
-        return $this->ChildGroups();
+
+        $videos = PaginatedList::create(
+            $this->data()->getVideoList(),
+            $request
+        )->setPageLength(Config::inst()->get('VideoGroup', 'page_length'))
+            ->setPaginationGetVar(Config::inst()->get('VideoGroup', 'pagination_get_var'));
+
+        $data = array(
+            'VideoList' => $videos
+        );
+
+        if ($request->isAjax()) {
+            return $this->customise($data)->renderWith('VideoList');
+        }
+
+        return $data;
+    }
+
+    /**
+     * Method called from the layout that can be passed
+     * a boolean variable to override the default behavior
+     * of getChildGroups().
+     *
+     * @param bool $all
+     *
+     * @return ArrayList
+     */
+    public function SubGroups($all = false)
+    {
+        return $this->data()->getChildGroups($all);
     }
 
 
