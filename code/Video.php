@@ -148,4 +148,11 @@ class Video extends Page
 
 class Video_Controller extends Page_Controller
 {
+    public function init()
+    {
+        parent::init();
+
+        Requirements::css(VIDEO_DIR . '/thirdparty/video-js/video-js.min.css');
+        Requirements::javascript(VIDEO_DIR . '/thirdparty/video-js/video.min.js');
+    }
 }
