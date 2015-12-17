@@ -6,14 +6,6 @@
  */
 class VideoGroup extends Page
 {
-
-    /**
-     * @var array
-     */
-    private static $belongs_many_many = array(
-        'Videos' => 'Video'
-    );
-
     /**
      * @var array
      */
