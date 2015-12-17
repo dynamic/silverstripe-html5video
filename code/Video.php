@@ -109,14 +109,7 @@ class Video extends Page
     public function getRelatedVideos()
     {
         if ($this->Parent() && $this->Parent()->ClassName == 'VideoGroup') {
-            $Videos = $this->Parent()->getVideoList();
-            foreach ($Videos as $Video) {
-                if ($Video->ID == $this->ID) {
-                    $Videos->remove($Video);
-                }
-            }
-
-            return $Videos;
+            return $this->Parent()->getVideoList()->exclude('ID', $this->ID);
         }
 
         return false;
