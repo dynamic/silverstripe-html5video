@@ -76,7 +76,10 @@ class VideoGroup extends Page
     /**
      * Method that returns a DataList of all
      * Video pages in the current VideoGroup
-     * and all child VideoGroup pages
+     * and all child VideoGroup pages.
+     * Note: this isn't recursive through child
+     * VideoGroup pages of the current VideoGroup
+     * page.
      *
      * @access public
      * @param bool $all
