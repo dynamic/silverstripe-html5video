@@ -65,7 +65,7 @@ class Video extends Page
         $PosterField = UploadField::create('Image', 'Poster Image')
             ->setFolderName('Uploads/Video/Images')
             ->setConfig('allowedMaxFileNumber', 1)
-            ->setDescription('Placeholder image until video is played.')
+            ->setDescription('Preview image for the video.')
         ;
         $PosterField->allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
         $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
