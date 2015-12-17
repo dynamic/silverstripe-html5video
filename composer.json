@@ -17,7 +17,7 @@
     "silverstripe/cms": "^3.1"
   },
   "suggest": {
-    "micschk/silverstripe-chunkeduploadfield": "^1.0"
+    "micschk/silverstripe-chunkeduploadfield": "Allows for large file uploads in CMS"
   },
   "extra": {
     "installer-name": "html5video"
