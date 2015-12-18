@@ -1,7 +1,7 @@
 {
   "name": "dynamic/silverstripe-html5video",
   "type": "silverstripe-module",
-  "description": "html5video is a SilverStripe video module for html5.",
+  "description": "HTML5Video is a SilverStripe module to add HTML5 Video to your website.",
   "homepage": "http://dynamicagency.org",
   "license": "BSD-3-Clause",
   "keywords": ["silverstripe", "html5", "video", "dynamic"],
