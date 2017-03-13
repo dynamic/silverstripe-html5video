@@ -93,9 +93,6 @@ class VideoGroup extends Page
     {
         $fields = parent::getCMSFields();
 
-
-        $this->extend('updateCMSFields', $fields);
-
         return $fields;
     }
 

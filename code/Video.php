@@ -126,8 +126,6 @@ class Video extends Page
             $OggField,
         ));
 
-        $this->extend('updateCMSFields', $fields);
-
         return $fields;
     }
 
