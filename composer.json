@@ -20,6 +20,9 @@
     "micschk/silverstripe-chunkeduploadfield": "Allows for large file uploads in CMS"
   },
   "extra": {
-    "installer-name": "html5video"
+    "installer-name": "html5video",
+    "branch-alias": {
+        "dev-master": "2.0.x-dev"
+    }
   }
 }
