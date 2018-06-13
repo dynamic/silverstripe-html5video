@@ -1,0 +1,5 @@
+mappings:
+  Video: Dynamic\HTML5Video\Pages\Video
+  Video_Controller: Dynamic\HTML5Video\Pages\Video_Controller
+  VideoGroup: Dynamic\HTML5Video\Pages\VideoGroup
+  VideoGroup_Controller: Dynamic\HTML5Video\Pages\VideoGroup_Controller
