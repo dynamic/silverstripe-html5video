@@ -73,7 +73,9 @@ class Video extends Page
 		$fields = parent::getCMSFields();
 
 		$fields->dataFieldByName('Title')->setTitle('Video Title');
-		$fields->dataFieldByName('Content')->setTitle('Video Description');
+		if ($content = $fields->dataFieldByName('Content')) {
+			$content->setTitle('Video Description');
+		}
 
 		$fields->insertBefore(
 			TextField::create('Time', 'Video Duration')
@@ -84,9 +86,14 @@ class Video extends Page
 		// poster
 		$PosterField = UploadField::create(Image::class, 'Poster Image')
 			->setFolderName('Uploads/Video/Images')
-			->setConfig('allowedMaxFileNumber', 1)
+			->setAllowedMaxFileNumber(1)
+			->setAllowedExtensions([
+				'jpg',
+				'jpeg',
+				'gif',
+				'png'
+			])
 			->setDescription('Preview image for the video.');
-		$PosterField->allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
 		$PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
 
 		$fields->insertBefore(
@@ -98,27 +105,27 @@ class Video extends Page
 		$MP4Field
 			->setTitle('MP4 Video')
 			->setFolderName('Uploads/Video/MP4Video')
-			->setConfig('allowedMaxFileNumber', 1)
-			->setDescription('Required. Format compatible with most browsers.');
-		$MP4Field->getValidator()->setAllowedExtensions(['mp4', 'm4v']);
+			->setAllowedMaxFileNumber(1)
+			->setDescription('Required. Format compatible with most browsers.')
+			->setAllowedExtensions(['mp4', 'm4v']);
 		$MP4Field->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
 		$OggField = UploadField::create('OggVideo');
 		$OggField
 			->setTitle('Ogg Video')
 			->setFolderName('Uploads/Video/OggVideo')
-			->setConfig('allowedMaxFileNumber', 1)
-			->setDescription('Optional. Format compatible with FireFox.');
-		$OggField->getValidator()->setAllowedExtensions(['ogv', 'ogg']);
+			->setAllowedMaxFileNumber(1)
+			->setDescription('Optional. Format compatible with FireFox.')
+			->setAllowedExtensions(['ogv', 'ogg']);
 		$OggField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
 		$WebMField = UploadField::create('WebMVideo');
 		$WebMField
 			->setTitle('WebM Video')
 			->setFolderName('Uploads/Video/WebMVideo')
-			->setConfig('allowedMaxFileNumber', 1)
-			->setDescription('Optional. Format compatible with Chrome.');
-		$WebMField->getValidator()->setAllowedExtensions(['webm']);
+			->setAllowedMaxFileNumber(1)
+			->setDescription('Optional. Format compatible with Chrome.')
+			->setAllowedExtensions(['webm']);
 		$WebMField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
 		$fields->addFieldsToTab('Root.Video', [
