@@ -36,7 +36,7 @@ class VideoTest extends SapphireTest
 
         /** @var Member $member */
         $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canView($member));
+        $this->assertTrue($object->canView($member));
     }
 
     /**
