@@ -3,9 +3,7 @@
 namespace Dynamic\HTML5VideoGroup\Tests\Pages;
 
 use Dynamic\HTML5Video\Pages\VideoGroup;
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Security\Member;
 
 /**
  * Class VideoGroupTest
@@ -17,90 +15,6 @@ class VideoGroupTest extends SapphireTest
      * @var string
      */
     protected static $fixture_file = '../html5video.yml';
-
-    /**
-     *
-     */
-    public function testCanView()
-    {
-        /** @var VideoGroup $object */
-        $object = Injector::inst()->create(VideoGroup::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canView($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canView($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertTrue($object->canView($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanEdit()
-    {
-        /** @var VideoGroup $object */
-        $object = Injector::inst()->create(VideoGroup::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canEdit($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canEdit($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canEdit($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanDelete()
-    {
-        /** @var VideoGroup $object */
-        $object = Injector::inst()->create(VideoGroup::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canDelete($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canDelete($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canDelete($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanCreate()
-    {
-        /** @var VideoGroup $object */
-        $object = Injector::inst()->create(VideoGroup::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canCreate($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canCreate($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canCreate($member));
-    }
 
     /**
      *
@@ -175,31 +89,6 @@ class VideoGroupTest extends SapphireTest
 
         foreach ($hiddenSubGroupIDs as $key => $val) {
             $checkHidden($val);
-        }
-    }
-
-    /**
-     *
-     */
-    public function testGetVideoGroupList()
-    {
-        /** @var VideoGroup $mainGroup */
-        $mainGroup = $this->objFromFixture(VideoGroup::class, 'VideoGroupA');
-        $mainGroupVideoGroups = $mainGroup->getVideoGroupList()->column('ID');
-
-        $videoList[] = $this->objFromFixture('VideoGroup', 'VideoGroup1')->ID;
-        $videoList[] = $this->objFromFixture('VideoGroup', 'VideoGroup2')->ID;
-        $videoList[] = $this->objFromFixture('VideoGroup', 'VideoGroup6')->ID;
-
-        $inVideoGroupArray = function ($ID) use (&$videoList) {
-            $this->assertTrue(
-                in_array($ID, $videoList),
-                'The video list built manually doesn\'t have the ID: ' . $ID . ' in it.'
-            );
-        };
-
-        foreach ($mainGroupVideoGroups as $key => $val) {
-            $inVideoGroupArray($val);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Dynamic\HTML5Video\Tests\Pages;
 use Dynamic\HTML5Video\Pages\Video;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Security\Member;
+use SilverStripe\Forms\FieldList;
 
 /**
  * Class VideoTest
@@ -21,84 +21,10 @@ class VideoTest extends SapphireTest
     /**
      *
      */
-    public function testCanView()
+    public function testGetCMSFields()
     {
         /** @var Video $object */
         $object = Injector::inst()->create(Video::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canView($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canView($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertTrue($object->canView($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanEdit()
-    {
-        /** @var Video $object */
-        $object = Injector::inst()->create(Video::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canEdit($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canEdit($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canEdit($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanDelete()
-    {
-        /** @var Video $object */
-        $object = Injector::inst()->create(Video::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canDelete($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canDelete($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canDelete($member));
-    }
-
-    /**
-     *
-     */
-    public function testCanCreate()
-    {
-        /** @var Video $object */
-        $object = Injector::inst()->create(Video::class);
-
-        /** @var Member $admin */
-        $admin = $this->objFromFixture(Member::class, 'admin');
-        $this->assertTrue($object->canCreate($admin));
-
-        /** @var Member $siteowner */
-        $siteowner = $this->objFromFixture(Member::class, 'site-owner');
-        $this->assertTrue($object->canCreate($siteowner));
-
-        /** @var Member $member */
-        $member = $this->objFromFixture(Member::class, 'default');
-        $this->assertFalse($object->canCreate($member));
+        $this->assertInstanceOf(FieldList::class, $object->getCMSFields());
     }
 }
