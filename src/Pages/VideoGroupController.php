@@ -11,6 +11,8 @@ use SilverStripe\ORM\PaginatedList;
 /**
  * Class VideoGroup_Controller
  * @package Dynamic\HTML5Video\Pages
+ *
+ * @mixin \Dynamic\HTML5Video\Pages\VideoGroup
  */
 class VideoGroup_Controller extends \PageController
 {
@@ -27,7 +29,6 @@ class VideoGroup_Controller extends \PageController
     public function init()
     {
         parent::init();
-
     }
 
     /**
@@ -38,7 +39,7 @@ class VideoGroup_Controller extends \PageController
     {
 
         $videos = PaginatedList::create(
-            $this->data()->getVideoList(),
+            $this->getVideoList(),
             $request
         )->setPageLength(Config::inst()->get(VideoGroup::class, 'page_length'))
             ->setPaginationGetVar(Config::inst()->get(VideoGroup::class, 'pagination_get_var'));
@@ -65,8 +66,6 @@ class VideoGroup_Controller extends \PageController
      */
     public function SubGroups($all = false)
     {
-        return $this->data()->getChildGroups($all);
+        return $this->getChildGroups($all);
     }
-
-
 }

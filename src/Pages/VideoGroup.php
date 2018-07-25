@@ -58,8 +58,8 @@ class VideoGroup extends Page
     {
         $groupIDS = $this->getVideoGroupIDS($all);
         $groupIDS[] = $this->ID;
-        return Video::get()->filter('ParentID', $groupIDS);
 
+        return Video::get()->filter('ParentID', $groupIDS);
     }
 
     /**
@@ -84,7 +84,7 @@ class VideoGroup extends Page
      *
      * @param bool $all
      *
-     * @return ArrayList
+     * @return ArrayList|DataList
      */
     public function getChildGroups($all = false)
     {

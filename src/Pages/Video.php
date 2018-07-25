@@ -2,13 +2,12 @@
 
 namespace Dynamic\HTML5Video\Pages;
 
-use Page;
+use \Page;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
-
 
 /**
  * Class Video
