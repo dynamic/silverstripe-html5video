@@ -53,29 +53,29 @@ Dynamic\HTML5Video\Pages\VideoGroup:
     Title: Video Group B
   VideoGroupC:
     Title: Video Group C
-    Parent: =>VideoGroup.VideoGroupA
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupA
   VideoGroupD:
     Title: Video Group D
     ShowInMenus: false
-    Parent: =>VideoGroup.VideoGroupA
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupA
 
 Dynamic\HTML5Video\Pages\Video:
   Video1:
     Title: Video 1
     Time: 3:45
-    Parent: =>VideoGroup.VideoGroupA
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupA
   Video2:
     Title: Video 2
     Time: 1:23
-    Parent: =>VideoGroup.VideoGroupA
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupA
   Video3:
     Title: Video 3
     Time: 2:34
-    Parent: =>VideoGroup.VideoGroupB
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupB
   Video4:
     Title: Video 4
     Time: 25:13
-    Parent: =>VideoGroup.VideoGroupB
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupB
   Video5:
     Title: Video 5
     Time: 2:44
@@ -83,4 +83,4 @@ Dynamic\HTML5Video\Pages\Video:
   Video6:
     Title: Video 6
     Time: 3:55
-    Parent: =>VideoGroup.VideoGroupD
+    Parent: =>Dynamic\HTML5Video\Pages\VideoGroup.VideoGroupD
