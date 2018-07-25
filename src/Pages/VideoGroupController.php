@@ -14,7 +14,7 @@ use SilverStripe\ORM\PaginatedList;
  *
  * @mixin \Dynamic\HTML5Video\Pages\VideoGroup
  */
-class VideoGroup_Controller extends \PageController
+class VideoGroupController extends \PageController
 {
     /**
      * @var array

@@ -115,12 +115,16 @@ class VideoGroupTest extends SapphireTest
         $shownChildGroups[] = $allChildGroupsManual[] = $this->objFromFixture(VideoGroup::class, 'VideoGroupC')->ID;
         $allChildGroupsManual[] = $this->objFromFixture(VideoGroup::class, 'VideoGroupD')->ID;
 
-        $this->assertTrue(count($shownChildGroups) <= count($allChildGroupsManual),
-            "The manual array of all child VideoGroup pages is smaller than the child VideoGroup pages. This shouldn't be the case");
+        $this->assertTrue(
+            count($shownChildGroups) <= count($allChildGroupsManual),
+            "The manual array of all child VideoGroup pages is smaller than the child VideoGroup pages. This shouldn't be the case"
+        );
 
         $inQueriedArray = function ($ID, $groupArray, $type) {
-            $this->assertTrue(in_array($ID, $groupArray),
-                "The VideoGroup with ID: {$ID} not found in the given VideoGroup ID array for {$type}.");
+            $this->assertTrue(
+                in_array($ID, $groupArray),
+                "The VideoGroup with ID: {$ID} not found in the given VideoGroup ID array for {$type}."
+            );
         };
 
         foreach ($childGroups as $key => $val) {
@@ -152,13 +156,17 @@ class VideoGroupTest extends SapphireTest
         $hiddenSubGroupIDs = $mainGroup->getVideoGroupIDs(true);
 
         $checkShown = function ($ID) use (&$shownArray) {
-            $this->assertTrue(in_array($ID, $shownArray),
-                'Sub VideoGroup with ID: ' . $ID . ' not in children group array.');
+            $this->assertTrue(
+                in_array($ID, $shownArray),
+                'Sub VideoGroup with ID: ' . $ID . ' not in children group array.'
+            );
         };
 
         $checkHidden = function ($ID) use (&$hiddenArray) {
-            $this->assertTrue(in_array($ID, $hiddenArray),
-                'Sub VideoGroup with ID: ' . $ID . ' not in all children group array.');
+            $this->assertTrue(
+                in_array($ID, $hiddenArray),
+                'Sub VideoGroup with ID: ' . $ID . ' not in all children group array.'
+            );
         };
 
         foreach ($shownSubGroupIDs as $key => $val) {
@@ -184,8 +192,10 @@ class VideoGroupTest extends SapphireTest
         $videoList[] = $this->objFromFixture('VideoGroup', 'VideoGroup6')->ID;
 
         $inVideoGroupArray = function ($ID) use (&$videoList) {
-            $this->assertTrue(in_array($ID, $videoList),
-                'The video list built manually doesn\'t have the ID: ' . $ID . ' in it.');
+            $this->assertTrue(
+                in_array($ID, $videoList),
+                'The video list built manually doesn\'t have the ID: ' . $ID . ' in it.'
+            );
         };
 
         foreach ($mainGroupVideoGroups as $key => $val) {

@@ -5,10 +5,10 @@ namespace Dynamic\HTML5Video\Pages;
 use SilverStripe\View\Requirements;
 
 /**
- * Class Video_Controller
+ * Class VideoController
  * @package Dynamic\HTML5Video\Pages
  */
-class Video_Controller extends \PageController
+class VideoController extends \PageController
 {
     public function init()
     {
