@@ -14,59 +14,59 @@ use SilverStripe\ORM\PaginatedList;
  */
 class VideoGroup_Controller extends \PageController
 {
-	/**
-	 * @var array
-	 */
-	private static $allowed_actions = [
-		'index',
-	];
+    /**
+     * @var array
+     */
+    private static $allowed_actions = [
+        'index',
+    ];
 
-	/**
-	 *
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     *
+     */
+    public function init()
+    {
+        parent::init();
 
-	}
+    }
 
-	/**
-	 * @param HTTPRequest $request
-	 * @return array|DBHTMLText
-	 */
-	public function index(HTTPRequest $request)
-	{
+    /**
+     * @param HTTPRequest $request
+     * @return array|DBHTMLText
+     */
+    public function index(HTTPRequest $request)
+    {
 
-		$videos = PaginatedList::create(
-			$this->data()->getVideoList(),
-			$request
-		)->setPageLength(Config::inst()->get(VideoGroup::class, 'page_length'))
-			->setPaginationGetVar(Config::inst()->get(VideoGroup::class, 'pagination_get_var'));
+        $videos = PaginatedList::create(
+            $this->data()->getVideoList(),
+            $request
+        )->setPageLength(Config::inst()->get(VideoGroup::class, 'page_length'))
+            ->setPaginationGetVar(Config::inst()->get(VideoGroup::class, 'pagination_get_var'));
 
-		$data = [
-			'VideoList' => $videos,
-		];
+        $data = [
+            'VideoList' => $videos,
+        ];
 
-		if ($request->isAjax()) {
-			return $this->customise($data)->renderWith('VideoList');
-		}
+        if ($request->isAjax()) {
+            return $this->customise($data)->renderWith('VideoList');
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Method called from the layout that can be passed
-	 * a boolean variable to override the default behavior
-	 * of getChildGroups().
-	 *
-	 * @param bool $all
-	 *
-	 * @return ArrayList
-	 */
-	public function SubGroups($all = false)
-	{
-		return $this->data()->getChildGroups($all);
-	}
+    /**
+     * Method called from the layout that can be passed
+     * a boolean variable to override the default behavior
+     * of getChildGroups().
+     *
+     * @param bool $all
+     *
+     * @return ArrayList
+     */
+    public function SubGroups($all = false)
+    {
+        return $this->data()->getChildGroups($all);
+    }
 
 
 }
