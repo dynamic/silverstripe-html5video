@@ -15,8 +15,18 @@
   "require": {
     "silverstripe/recipe-cms": "^1.0"
   },
+  "require-dev": {
+    "phpunit/PHPUnit": "^5.7",
+    "squizlabs/php_codesniffer": "*"
+  },
   "suggest": {
     "micschk/silverstripe-chunkeduploadfield": "Allows for large file uploads in CMS"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dynamic\\HTML5Video\\": "src/",
+      "Dynamic\\HTML5Video\\Tests\\": "tests/"
+    }
   },
   "extra": {
     "installer-name": "html5video",
