@@ -2,10 +2,11 @@
 
 namespace Dynamic\HTML5Video\Pages;
 
-use \Page;
+use Page;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Image;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\Forms\TextField;
 
@@ -66,71 +67,72 @@ class Video extends Page
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
 
-        $fields->dataFieldByName('Title')->setTitle('Video Title');
-        if ($content = $fields->dataFieldByName('Content')) {
-            $content->setTitle('Video Description');
-        }
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->dataFieldByName('Title')->setTitle('Video Title');
+            if ($content = $fields->dataFieldByName('Content')) {
+                $content->setTitle('Video Description');
+            }
 
-        $fields->insertBefore(
-            TextField::create('Time', 'Video Duration')
-                ->setDescription('ex. mm:ss'),
-            'Content'
-        );
+            $fields->insertBefore(
+                TextField::create('Time', 'Video Duration')
+                    ->setDescription('ex. mm:ss'),
+                'Content'
+            );
 
-        // poster
-        $PosterField = UploadField::create(Image::class, 'Poster Image')
-            ->setFolderName('Uploads/Video/Images')
-            ->setAllowedMaxFileNumber(1)
-            ->setAllowedExtensions([
-                'jpg',
-                'jpeg',
-                'gif',
-                'png'
-            ])
-            ->setDescription('Preview image for the video.');
-        $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
+            // poster
+            $PosterField = UploadField::create(Image::class, 'Poster Image')
+                ->setFolderName('Uploads/Video/Images')
+                ->setAllowedMaxFileNumber(1)
+                ->setAllowedExtensions([
+                    'jpg',
+                    'jpeg',
+                    'gif',
+                    'png'
+                ])
+                ->setDescription('Preview image for the video.');
+            $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
 
-        $fields->insertBefore(
-            $PosterField,
-            'Content'
-        );
+            $fields->insertBefore(
+                $PosterField,
+                'Content'
+            );
 
-        $MP4Field = new UploadField('MP4Video');
-        $MP4Field
-            ->setTitle('MP4 Video')
-            ->setFolderName('Uploads/Video/MP4Video')
-            ->setAllowedMaxFileNumber(1)
-            ->setDescription('Required. Format compatible with most browsers.')
-            ->setAllowedExtensions(['mp4', 'm4v']);
-        $MP4Field->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
+            $MP4Field = new UploadField('MP4Video');
+            $MP4Field
+                ->setTitle('MP4 Video')
+                ->setFolderName('Uploads/Video/MP4Video')
+                ->setAllowedMaxFileNumber(1)
+                ->setDescription('Required. Format compatible with most browsers.')
+                ->setAllowedExtensions(['mp4', 'm4v']);
+            $MP4Field->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
-        $OggField = UploadField::create('OggVideo');
-        $OggField
-            ->setTitle('Ogg Video')
-            ->setFolderName('Uploads/Video/OggVideo')
-            ->setAllowedMaxFileNumber(1)
-            ->setDescription('Optional. Format compatible with FireFox.')
-            ->setAllowedExtensions(['ogv', 'ogg']);
-        $OggField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
+            $OggField = UploadField::create('OggVideo');
+            $OggField
+                ->setTitle('Ogg Video')
+                ->setFolderName('Uploads/Video/OggVideo')
+                ->setAllowedMaxFileNumber(1)
+                ->setDescription('Optional. Format compatible with FireFox.')
+                ->setAllowedExtensions(['ogv', 'ogg']);
+            $OggField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
-        $WebMField = UploadField::create('WebMVideo');
-        $WebMField
-            ->setTitle('WebM Video')
-            ->setFolderName('Uploads/Video/WebMVideo')
-            ->setAllowedMaxFileNumber(1)
-            ->setDescription('Optional. Format compatible with Chrome.')
-            ->setAllowedExtensions(['webm']);
-        $WebMField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
+            $WebMField = UploadField::create('WebMVideo');
+            $WebMField
+                ->setTitle('WebM Video')
+                ->setFolderName('Uploads/Video/WebMVideo')
+                ->setAllowedMaxFileNumber(1)
+                ->setDescription('Optional. Format compatible with Chrome.')
+                ->setAllowedExtensions(['webm']);
+            $WebMField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
-        $fields->addFieldsToTab('Root.Video', [
-            $MP4Field,
-            $WebMField,
-            $OggField,
-        ]);
+            $fields->addFieldsToTab('Root.Video', [
+                $MP4Field,
+                $WebMField,
+                $OggField,
+            ]);
+        });
 
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**

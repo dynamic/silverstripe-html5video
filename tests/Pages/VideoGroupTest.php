@@ -31,7 +31,8 @@ class VideoGroupTest extends SapphireTest
 
         $this->assertTrue(
             count($shownChildGroups) <= count($allChildGroupsManual),
-            "The manual array of all child VideoGroup pages is smaller than the child VideoGroup pages. This shouldn't be the case"
+            "The manual array of all child VideoGroup pages is smaller than the child VideoGroup pages. " .
+            "This shouldn't be the case"
         );
 
         $inQueriedArray = function ($ID, $groupArray, $type) {
