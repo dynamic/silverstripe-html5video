@@ -26,7 +26,7 @@ class VideoTest extends SapphireTest
     {
         /** @var Video $object */
         $object = Injector::inst()->create(Video::class);
-        $this->assertFalse($object->ShowInMenus);
+        $this->assertEquals(0, $object->ShowInMenus);
     }
 
     /**
