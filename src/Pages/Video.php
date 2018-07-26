@@ -74,14 +74,8 @@ class Video extends Page
                 $content->setTitle('Video Description');
             }
 
-            $fields->insertBefore(
-                TextField::create('Time', 'Video Duration')
-                    ->setDescription('ex. mm:ss'),
-                'Content'
-            );
-
             // poster
-            $PosterField = UploadField::create(Image::class, 'Poster Image')
+            $PosterField = UploadField::create('Image', 'Poster Image')
                 ->setFolderName('Uploads/Video/Images')
                 ->setAllowedMaxFileNumber(1)
                 ->setAllowedExtensions([
@@ -92,11 +86,6 @@ class Video extends Page
                 ])
                 ->setDescription('Preview image for the video.');
             $PosterField->getValidator()->setAllowedMaxFileSize(VIDEO_IMAGE_FILE_SIZE_LIMIT);
-
-            $fields->insertBefore(
-                $PosterField,
-                'Content'
-            );
 
             $MP4Field = new UploadField('MP4Video');
             $MP4Field
@@ -126,6 +115,9 @@ class Video extends Page
             $WebMField->getValidator()->setAllowedMaxFileSize(VIDEO_FILE_SIZE_LIMIT);
 
             $fields->addFieldsToTab('Root.Video', [
+                TextField::create('Time', 'Video Duration')
+                    ->setDescription('ex. mm:ss'),
+                $PosterField,
                 $MP4Field,
                 $WebMField,
                 $OggField,

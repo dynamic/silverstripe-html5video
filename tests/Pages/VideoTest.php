@@ -53,6 +53,12 @@ class VideoTest extends SapphireTest
 
     public function testGetRelatedVideos()
     {
+        /** @var Video $object */
+        $object = Injector::inst()->create(Video::class);
+        $this->assertFalse($object->getRelatedVideos());
+
+        // TODO
+
         $this->markTestSkipped();
     }
 }
