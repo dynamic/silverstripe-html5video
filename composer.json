@@ -1,6 +1,6 @@
 {
   "name": "dynamic/silverstripe-html5video",
-  "type": "silverstripe-module",
+  "type": "silverstripe-vendormodule",
   "description": "HTML5Video is a SilverStripe module to add HTML5 Video to your website.",
   "homepage": "http://dynamicagency.org",
   "license": "BSD-3-Clause",
@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "silverstripe/recipe-cms": "^1.0"
+    "silverstripe/recipe-cms": "^1@dev || ^4@dev",
+    "silverstripe/vendor-plugin": "^1@dev"
   },
   "require-dev": {
     "phpunit/PHPUnit": "^5.7",
