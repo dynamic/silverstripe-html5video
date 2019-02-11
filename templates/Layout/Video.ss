@@ -1,4 +1,5 @@
-<% require css(html5video/css/video.css) %>
+<% require css(dynamic/silverstripe-html5video: css/video.css) %>
+<% require css(dynamic/silverstripe-html5video: thirdparty/video-js/video-js.min.css) %>
 <% include SideBar %>
 <div class="content-container unit size3of4 lastUnit">
 	<article>
@@ -34,3 +35,5 @@
     $Form
     $CommentsForm
 </div>
+
+<% require javascript("dynamic/silverstripe-html5video: thirdparty/video-js/video.min.js") %>

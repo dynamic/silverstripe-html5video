@@ -14,7 +14,5 @@ class VideoController extends \PageController
     {
         parent::init();
 
-        Requirements::css(VIDEO_DIR . '/thirdparty/video-js/video-js.min.css');
-        Requirements::javascript(VIDEO_DIR . '/thirdparty/video-js/video.min.js');
     }
 }
