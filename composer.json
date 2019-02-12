@@ -33,6 +33,10 @@
     "installer-name": "html5video",
     "branch-alias": {
         "dev-master": "2.0.x-dev"
-    }
+    },
+    "expose": [
+        "thirdparty/video-js",
+        "css"
+    ]
   }
 }
