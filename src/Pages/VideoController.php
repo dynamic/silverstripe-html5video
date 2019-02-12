@@ -10,9 +10,4 @@ use SilverStripe\View\Requirements;
  */
 class VideoController extends \PageController
 {
-    public function init()
-    {
-        parent::init();
-
-    }
 }
